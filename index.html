@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traffic Light with On/Off Switch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #000000;
+      margin: 0;
+    }
+    
+    .traffic-light {
+      width: 100px;
+      height: 300px;
+      background-color: #333;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .light {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: gray;
+      transition: background-color 0.5s;
+    }
+
+    .light.on {
+      background-color: gray;
+    }
+
+    .red.active {
+      background-color: red;
+    }
+    .yellow.active {
+      background-color: yellow;
+    }
+    .green.active {
+      background-color: green;
+    }
+
+    .switch-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .switch {
+      padding: 10px 20px;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    .switch.on {
+      background-color: green;
+    }
+    
+    .switch.off {
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="traffic-light" id="traffic-light">
+    <div class="light red" id="red-light"></div>
+    <div class="light yellow" id="yellow-light"></div>
+    <div class="light green" id="green-light"></div>
+  </div>
+
+  <div class="switch-container">
+    <button class="switch off" id="toggle-btn">Turn On</button>
+  </div>
+
+  <script>
+    let isOn = false;
+    let currentLight = 'red';
+    let intervalId;
+
+    const redLight = document.getElementById('red-light');
+    const yellowLight = document.getElementById('yellow-light');
+    const greenLight = document.getElementById('green-light');
+    const toggleBtn = document.getElementById('toggle-btn');
+
+    function startTrafficLight() {
+      intervalId = setInterval(() => {
+        if (currentLight === 'red') {
+          redLight.classList.remove('active');
+          yellowLight.classList.remove('active');
+          greenLight.classList.add('active');
+          currentLight = 'green';
+        } else if (currentLight === 'green') {
+          redLight.classList.remove('active');
+          yellowLight.classList.add('active');
+          greenLight.classList.remove('active');
+          currentLight = 'yellow';
+        } else if (currentLight === 'yellow') {
+          redLight.classList.add('active');
+          yellowLight.classList.remove('active');
+          greenLight.classList.remove('active');
+          currentLight = 'red';
+        }
+      }, 1000);
+    }
+
+    function stopTrafficLight() {
+      clearInterval(intervalId);
+      redLight.classList.remove('active');
+      yellowLight.classList.remove('active');
+      greenLight.classList.remove('active');
+    }
+
+   toggleBtn.addEventListener('click', () => {
+      isOn = !isOn;
+
+      if (isOn) {
+        toggleBtn.textContent = 'Turn Off';
+        toggleBtn.classList.remove('off');
+        toggleBtn.classList.add('on');
+        startTrafficLight();
+      } else {
+        toggleBtn.textContent = 'Turn On';
+        toggleBtn.classList.remove('on');
+        toggleBtn.classList.add('off');
+        stopTrafficLight();
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
